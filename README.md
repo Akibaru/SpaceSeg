@@ -5,6 +5,7 @@
 <p><strong>A SAM2-based reproduction repository for high-precision multi-spacecraft on-orbit target segmentation.</strong></p>
 
 <p>
+  <a href="https://arxiv.org/abs/2503.11133"><img src="https://img.shields.io/badge/arXiv-2503.11133-b31b1b?style=for-the-badge" alt="arXiv:2503.11133"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green?style=for-the-badge" alt="License: Apache 2.0"></a>
   <a href="DATASET.md"><img src="https://img.shields.io/badge/Dataset-SpaceES%20Sample-blue?style=for-the-badge" alt="SpaceES sample dataset"></a>
   <a href="MODEL_CARD.md"><img src="https://img.shields.io/badge/Model%20Card-SpaceSeg-orange?style=for-the-badge" alt="SpaceSeg model card"></a>
@@ -13,6 +14,7 @@
 
 <p>
   <a href="#overview">Overview</a> |
+  <a href="#framework">Framework</a> |
   <a href="#quick-start">Quick Start</a> |
   <a href="#results">Results</a> |
   <a href="#dataset-and-weights">Dataset & Weights</a> |
@@ -48,6 +50,19 @@ The repository keeps the SAM2 runtime required by the model, provides clean CLI
 entry points for training, evaluation, and inference, and includes a small
 balanced sample dataset for smoke tests and demos.
 
+## Framework
+
+<p align="center">
+  <a href="assets/pipe.pdf">
+    <img src="assets/pipe.png" alt="SpaceSeg framework: SpaceES, SDAT, multi-spacecraft CCA, image encoder, prompt encoder, MSHARD, and mask scoring" width="95%">
+  </a>
+</p>
+
+The public pipeline follows the paper workflow: SpaceES samples are augmented by
+SDAT, spacecraft instances are organized through connected components, SAM2
+encodes the scene and prompts, and MSHARD refines mask decoding before IoU and
+object scores are produced. Click the figure to open the source PDF.
+
 ## Highlights
 
 | Component | Purpose | Public implementation |
@@ -78,7 +93,7 @@ balanced sample dataset for smoke tests and demos.
 | Refactored SpaceSeg training, evaluation, and inference code | Full SpaceES dataset |
 | SAM2 runtime code needed by SpaceSeg | Internal laboratory datasets and raw assets |
 | 32 train + 8 test SpaceES sample image/mask pairs | Internal experiment logs and W&B runs |
-| Documentation, model card, and dataset notes | `.pth` / `.pt` checkpoints |
+| Documentation, model card, dataset notes, and public framework figure | `.pth` / `.pt` checkpoints |
 | Weight release instructions | `main.pdf` and private manuscript assets |
 
 ## Quick Start
@@ -177,6 +192,7 @@ SpaceSeg/
 |-- sam2/                          # SAM2 runtime with SpaceSeg decoder wiring
 |-- sam2_configs/                  # SAM2 model configs
 |-- checkpoints/download_ckpts.sh  # Official SAM2 checkpoint downloader
+|-- assets/                        # Public framework figure for the README
 |-- examples/spacees_sample/       # Public 40-pair SpaceES sample subset
 |-- weights/README.md              # SpaceSeg weight release notes
 |-- DATASET.md                     # Dataset policy and format
@@ -201,19 +217,45 @@ See `DATASET.md`, `MODEL_CARD.md`, and `weights/README.md` for the current
 release policy. Public sample data and released weights are provided for
 research and non-commercial use only.
 
+## AI Banner Prompt
+
+Use this prompt to generate an optional GitHub README banner. Save the result as
+`assets/spaceseg_banner.png` before adding it to the top of this page.
+
+```text
+Create a cinematic academic GitHub README banner for a research project named
+"SpaceSeg". Wide aspect ratio 3:1, 1920x640 or higher. The scene should show
+high-precision on-orbit multi-spacecraft perception in deep space: several
+realistic satellites and spacecraft captured by an orbital camera, with Earth
+limb, Moon/Mars tones, and a starfield in the background. Overlay subtle
+translucent segmentation masks, contour lines, prompt points, and neural
+network feature-map layers to suggest SAM2-based vision foundation model
+segmentation, MSHARD multi-scale refinement, connected-component target
+organization, and spatial domain adaptation.
+
+Style: polished scientific visualization, realistic spacecraft, clean aerospace
+engineering aesthetic, elegant dark space background with restrained cyan, blue,
+white, and amber accents. High contrast, sharp details, professional
+conference-paper project page look. Leave visual breathing room near the
+center/top for README text. No national flags, no weapons, no missiles, no
+humans, no cluttered HUD, no fake logos, no unreadable text. If text is
+included, only a crisp minimal "SpaceSeg" title; otherwise no text.
+```
+
 ## Citation
 
 ```bibtex
-@article{spaceseg2026,
-  title = {SpaceSeg: A High-Precision Intelligent Perception Segmentation Method
-           for Multi-Spacecraft On-Orbit Targets},
-  year  = {2026},
-  note  = {Manuscript}
+@misc{liu2025spaceseg,
+  title         = {SpaceSeg: A High-Precision Intelligent Perception Segmentation Method for Multi-Spacecraft On-Orbit Targets},
+  author        = {Hao Liu and Pengyu Guo and Siyuan Yang and Zeqing Jiang and Qinglei Hu and Dongyu Li},
+  year          = {2025},
+  eprint        = {2503.11133},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  doi           = {10.48550/arXiv.2503.11133},
+  url           = {https://arxiv.org/abs/2503.11133}
 }
 ```
-
-The citation entry will be updated when the formal publication metadata is
-available.
 
 ## License
 
