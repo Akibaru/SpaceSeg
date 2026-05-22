@@ -1,6 +1,9 @@
 .vscode/
 .DS_Store
 __pycache__/
+.publish_spaceseg_clean/
+.tmp_pdf_render/
+.edge-pdf-profile/
 *-checkpoint.ipynb
 .venv
 *.egg*
@@ -13,3 +16,5 @@ data/
 wandb/
 *.pth
 *.pt
+/banner.png
+/pipe.pdf

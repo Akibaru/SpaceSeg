@@ -2,11 +2,15 @@
 
 ## Model
 
-The release checkpoint corresponds to the SpaceSeg model reported in the paper:
+The release checkpoint corresponds to the SpaceSeg model reported in the paper
+**"SpaceSeg: A High-Precision Intelligent Perception Segmentation Method for
+Multi-Spacecraft On-Orbit Targets"**:
 
 ```text
 Out/final_best_model_mIoU_8987_mAcc_9998.pth
 ```
+
+Paper: https://arxiv.org/abs/2503.11133
 
 It uses SAM2 Hiera-S as the base model and the SpaceSeg MSHARD decoder stored
 under the checkpoint key prefix `sam_mask_decoder.unet.*`.
@@ -44,4 +48,3 @@ python eval_spaceseg.py \
   --pretrained-checkpoint checkpoints/sam2_hiera_small.pt \
   --finetuned-checkpoint Out/final_best_model_mIoU_8987_mAcc_9998.pth
 ```
-

@@ -8,12 +8,12 @@ from setuptools import find_packages, setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
 # Package metadata
-NAME = "SAM 2"
+NAME = "spaceseg"
 VERSION = "1.0"
-DESCRIPTION = "SAM 2: Segment Anything in Images and Videos"
-URL = "https://github.com/facebookresearch/segment-anything-2"
-AUTHOR = "Meta AI"
-AUTHOR_EMAIL = "segment-anything@meta.com"
+DESCRIPTION = "SpaceSeg: high-precision multi-spacecraft on-orbit target segmentation"
+URL = "https://github.com/Akibaru/SpaceSeg"
+AUTHOR = "Hao Liu et al."
+AUTHOR_EMAIL = ""
 LICENSE = "Apache 2.0"
 
 # Read the contents of README file

@@ -18,6 +18,8 @@
   <a href="#quick-start">Quick Start</a> |
   <a href="#results">Results</a> |
   <a href="#dataset-and-weights">Dataset & Weights</a> |
+  <a href="#citation">Citation</a> |
+  <a href="#acknowledgements">Acknowledgements</a> |
   <a href="#license">License</a>
 </p>
 
@@ -102,7 +104,8 @@ object scores are produced. Click the figure to open the source PDF.
 
 ## Quick Start
 
-Install on a CUDA machine with Python 3.10+:
+Install on a CUDA machine with Python 3.10+. First install a PyTorch build that
+matches your CUDA runtime, then install SpaceSeg:
 
 ```bash
 pip install -e ".[spaceseg]"
@@ -235,6 +238,18 @@ research and non-commercial use only.
   url           = {https://arxiv.org/abs/2503.11133}
 }
 ```
+
+## Acknowledgements
+
+SpaceSeg builds on the [SAM2](https://github.com/facebookresearch/segment-anything-2)
+codebase from Meta AI and keeps the Apache 2.0 license for the inherited
+runtime code. The early experimental code also used a compact
+[SAM2 fine-tuning tutorial](https://medium.com/@sagieppel/train-fine-tune-segment-anything-2-sam-2-in-60-lines-of-code-928dd29a63b3)
+as a practical baseline for adapting SAM2 to a new segmentation domain.
+
+The optional connected-component post-processing code is adapted from
+[`cc_torch`](https://github.com/zsef123/Connected_components_PyTorch); its
+license is included in `LICENSE_cctorch`.
 
 ## License
 
