@@ -1,0 +1,15 @@
+.vscode/
+.DS_Store
+__pycache__/
+*-checkpoint.ipynb
+.venv
+*.egg*
+build/*
+_C.*
+outputs/*
+outputs/
+checkpoints/*.pt
+data/
+wandb/
+*.pth
+*.pt
