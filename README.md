@@ -2,7 +2,7 @@
 
 <h1>SpaceSeg</h1>
 
-<p><strong>A SAM2-based reproduction repository for high-precision multi-spacecraft on-orbit target segmentation.</strong></p>
+<p><strong>A High-Precision Intelligent Perception Segmentation Method for Multi-Spacecraft On-Orbit Targets</strong></p>
 
 <p>
   <a href="https://arxiv.org/abs/2503.11133"><img src="https://img.shields.io/badge/arXiv-2503.11133-b31b1b?style=for-the-badge" alt="arXiv:2503.11133"></a>
