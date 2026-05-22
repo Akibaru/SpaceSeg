@@ -1,28 +1,87 @@
-# SpaceSeg
+<div align="center">
 
-SpaceSeg is a reproduction repository for **"SpaceSeg: A High-Precision
-Intelligent Perception Segmentation Method for Multi-Spacecraft On-Orbit
-Targets"**. It adapts SAM 2 to multi-spacecraft segmentation on the SpaceES
-dataset.
+<h1>SpaceSeg</h1>
 
-The original repository started from SAM 2 and a small fine-tuning tutorial.
-This version keeps the SAM 2 base code, adds the SpaceSeg reproduction entry
-points, and preserves the old experimental scripts as legacy references.
+<p><strong>A SAM2-based reproduction repository for high-precision multi-spacecraft on-orbit target segmentation.</strong></p>
+
+<p>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green?style=for-the-badge" alt="License: Apache 2.0"></a>
+  <a href="DATASET.md"><img src="https://img.shields.io/badge/Dataset-SpaceES%20Sample-blue?style=for-the-badge" alt="SpaceES sample dataset"></a>
+  <a href="MODEL_CARD.md"><img src="https://img.shields.io/badge/Model%20Card-SpaceSeg-orange?style=for-the-badge" alt="SpaceSeg model card"></a>
+  <a href="weights/README.md"><img src="https://img.shields.io/badge/Weights-Release%20Notes-purple?style=for-the-badge" alt="Weight release notes"></a>
+</p>
+
+<p>
+  <a href="#overview">Overview</a> |
+  <a href="#quick-start">Quick Start</a> |
+  <a href="#results">Results</a> |
+  <a href="#dataset-and-weights">Dataset & Weights</a> |
+  <a href="#license">License</a>
+</p>
+
+</div>
+
+---
+
+## Release Notice
+
+This repository is a **desensitized and refactored public release** of the
+original SpaceSeg experimental codebase. During publication, internal paths,
+private datasets, experiment logs, non-public checkpoints, and sensitive
+laboratory assets were removed or replaced with clean reproduction interfaces.
+
+Due to laboratory safety and data governance policies, this public repository
+only includes the reproducible SpaceSeg code, a curated SpaceES sample subset,
+and public-safe weight release notes or release assets. The full SpaceES
+dataset and internal training checkpoints are not distributed directly in this
+git repository.
+
+## Overview
+
+SpaceSeg reproduces **"SpaceSeg: A High-Precision Intelligent Perception
+Segmentation Method for Multi-Spacecraft On-Orbit Targets"**. The method adapts
+SAM2 to multi-spacecraft segmentation on the SpaceES dataset and organizes the
+training and evaluation pipeline around the paper's main components: MSHARD,
+SDAT, CCA target organization, and a task-oriented mask quality loss.
+
+The repository keeps the SAM2 runtime required by the model, provides clean CLI
+entry points for training, evaluation, and inference, and includes a small
+balanced sample dataset for smoke tests and demos.
+
+## Highlights
+
+| Component | Purpose | Public implementation |
+|---|---|---|
+| **SAM2 backbone** | Promptable segmentation foundation model | `sam2/`, `sam2_configs/` |
+| **MSHARD** | Multi-scale high-accuracy refinement decoder | `sam2/modeling/sam/mask_decoder.py` |
+| **SDAT** | Space-domain data augmentation for training | `spaceseg/sdat.py` |
+| **CCA prompts** | Connected-component target organization and prompt sampling | `spaceseg/data.py` |
+| **Task-oriented loss** | BCE mask loss plus IoU prediction supervision | `train_spaceseg.py` |
+| **Clean CLIs** | Reproducible train/eval/infer entry points | `train_spaceseg.py`, `eval_spaceseg.py`, `infer_spaceseg.py` |
 
 ## Method Mapping
 
-- **MSHARD**: implemented in `sam2/modeling/sam/mask_decoder.py` as the
-  `sam_mask_decoder.unet` module for compatibility with the published 8987
-  checkpoint. It is wired into both the standard and high-resolution SAM2 mask
-  decoder paths.
-- **SDAT**: implemented in `spaceseg/sdat.py` and enabled by default in
-  `train_spaceseg.py`.
-- **CCA target organization**: implemented in `spaceseg/data.py` through binary
-  mask connected components and point sampling.
-- **Task-oriented loss**: implemented in `train_spaceseg.py` as segmentation
+- **MSHARD** is implemented as the `sam_mask_decoder.unet` module to preserve
+  compatibility with the final SpaceSeg checkpoint. It is wired into both the
+  standard and high-resolution SAM2 mask decoder paths.
+- **SDAT** is implemented in `spaceseg/sdat.py` and enabled by default during
+  training.
+- **CCA target organization** is implemented in `spaceseg/data.py` through
+  binary mask connected components and point sampling.
+- **Task-oriented loss** is implemented in `train_spaceseg.py` as segmentation
   BCE plus IoU-prediction loss with `--lambda-iou 0.05`.
 
-## Installation
+## Public Release Contents
+
+| Included | Not included in git |
+|---|---|
+| Refactored SpaceSeg training, evaluation, and inference code | Full SpaceES dataset |
+| SAM2 runtime code needed by SpaceSeg | Internal laboratory datasets and raw assets |
+| 32 train + 8 test SpaceES sample image/mask pairs | Internal experiment logs and W&B runs |
+| Documentation, model card, and dataset notes | `.pth` / `.pt` checkpoints |
+| Weight release instructions | `main.pdf` and private manuscript assets |
+
+## Quick Start
 
 Install on a CUDA machine with Python 3.10+:
 
@@ -36,17 +95,20 @@ Download the SAM2 Hiera-S checkpoint into `checkpoints/`:
 checkpoints/sam2_hiera_small.pt
 ```
 
-The final SpaceSeg checkpoint used in the paper should be placed at:
+Run a one-iteration smoke test on the public sample split:
 
-```text
-Out/final_best_model_mIoU_8987_mAcc_9998.pth
+```bash
+python train_spaceseg.py \
+  --train-root examples/spacees_sample/train \
+  --val-root examples/spacees_sample/test \
+  --pretrained-checkpoint checkpoints/sam2_hiera_small.pt \
+  --iterations 1 \
+  --validate-every 1
 ```
 
-See `MODEL_CARD.md` and `weights/README.md` for release notes.
+## Training / Evaluation / Inference
 
-## Data Layout
-
-The full SpaceES dataset is intentionally not tracked by git. Put it under:
+Use the full SpaceES layout when running paper-scale experiments:
 
 ```text
 data/
@@ -58,10 +120,7 @@ data/
     mask/
 ```
 
-Image and mask files must have identical names. A small balanced sample is
-included under `examples/spacees_sample/` for smoke tests and demos.
-
-## Train
+Train SpaceSeg:
 
 ```bash
 python train_spaceseg.py \
@@ -71,21 +130,7 @@ python train_spaceseg.py \
   --output-dir outputs/spaceseg
 ```
 
-Defaults match the paper protocol where practical: Hiera-S, 1024 x 1024 input,
-100000 iterations, AdamW with learning rate `1e-5`, SDAT enabled, and
-`lambda_iou=0.05`.
-
-For a quick smoke test:
-
-```bash
-python train_spaceseg.py \
-  --train-root examples/spacees_sample/train \
-  --val-root examples/spacees_sample/test \
-  --iterations 1 \
-  --validate-every 1
-```
-
-## Evaluate
+Evaluate a fine-tuned checkpoint:
 
 ```bash
 python eval_spaceseg.py \
@@ -94,12 +139,7 @@ python eval_spaceseg.py \
   --finetuned-checkpoint Out/final_best_model_mIoU_8987_mAcc_9998.pth
 ```
 
-With the full SpaceES test set and the 8987 checkpoint, results should be close
-to the paper values: **89.87 mIoU** and **99.98 mAcc**.
-
-## Inference
-
-Run on the included sample split:
+Run inference on the public sample split:
 
 ```bash
 python infer_spaceseg.py \
@@ -114,15 +154,69 @@ When no mask directory is available, provide one or more prompt points:
 python infer_spaceseg.py --source path/to/image.png --mask-dir "" --point 512,512
 ```
 
-## Legacy Scripts
+## Results
 
-Files such as `trainnew*.py`, `testn*.py`, `TRAIN.py`, and `TEST_Net.py` are kept
-as historical experiment notes. New reproduction work should use
-`train_spaceseg.py`, `eval_spaceseg.py`, and `infer_spaceseg.py`.
+| Setting | Checkpoint | mIoU | mAcc | Notes |
+|---|---|---:|---:|---|
+| Full SpaceES test set | Final SpaceSeg checkpoint | 89.87 | 99.98 | Paper-scale reproduction target |
+| `examples/spacees_sample/test` | Any compatible checkpoint | - | - | Smoke test and demo only |
+
+The public sample dataset is intended for validating the code path, file
+format, prompt sampling, and inference outputs. It is not large enough to
+represent the full SpaceES benchmark distribution or reproduce the paper
+metrics.
+
+## Repository Structure
+
+```text
+SpaceSeg/
+|-- train_spaceseg.py              # SpaceES training entry point
+|-- eval_spaceseg.py               # mIoU / mAcc / FPS evaluation entry point
+|-- infer_spaceseg.py              # Single-image or directory inference
+|-- spaceseg/                      # Shared data, SDAT, metrics, and pipeline helpers
+|-- sam2/                          # SAM2 runtime with SpaceSeg decoder wiring
+|-- sam2_configs/                  # SAM2 model configs
+|-- checkpoints/download_ckpts.sh  # Official SAM2 checkpoint downloader
+|-- examples/spacees_sample/       # Public 40-pair SpaceES sample subset
+|-- weights/README.md              # SpaceSeg weight release notes
+|-- DATASET.md                     # Dataset policy and format
+|-- MODEL_CARD.md                  # Model card for the final checkpoint
+`-- LEGACY_SCRIPTS.md              # Notes on archived experimental scripts
+```
+
+## Dataset And Weights
+
+The full SpaceES dataset is intentionally excluded from git. The public sample
+under `examples/spacees_sample/` contains 32 training pairs and 8 test pairs,
+with matching image and mask filenames.
+
+The final SpaceSeg checkpoint used for the paper-scale target result should be
+placed locally at:
+
+```text
+Out/final_best_model_mIoU_8987_mAcc_9998.pth
+```
+
+See `DATASET.md`, `MODEL_CARD.md`, and `weights/README.md` for the current
+release policy. Public sample data and released weights are provided for
+research and non-commercial use only.
+
+## Citation
+
+```bibtex
+@article{spaceseg2026,
+  title = {SpaceSeg: A High-Precision Intelligent Perception Segmentation Method
+           for Multi-Spacecraft On-Orbit Targets},
+  year  = {2026},
+  note  = {Manuscript}
+}
+```
+
+The citation entry will be updated when the formal publication metadata is
+available.
 
 ## License
 
-Code follows the Apache 2.0 license inherited from SAM 2. The SpaceES sample
-data and SpaceSeg released weights are provided for research and non-commercial
-use only; see `DATASET.md` and `MODEL_CARD.md`.
-
+Code follows the Apache 2.0 license inherited from SAM2. The SpaceES sample data
+and released SpaceSeg weights are provided for research and non-commercial use
+only; see `DATASET.md` and `MODEL_CARD.md`.
