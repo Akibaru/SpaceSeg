@@ -21,6 +21,10 @@
   <a href="#license">License</a>
 </p>
 
+<p>
+  <img src="assets/banner.png" alt="SpaceSeg banner showing multi-spacecraft on-orbit perception with segmentation and feature overlays" width="95%">
+</p>
+
 </div>
 
 ---
@@ -93,7 +97,7 @@ object scores are produced. Click the figure to open the source PDF.
 | Refactored SpaceSeg training, evaluation, and inference code | Full SpaceES dataset |
 | SAM2 runtime code needed by SpaceSeg | Internal laboratory datasets and raw assets |
 | 32 train + 8 test SpaceES sample image/mask pairs | Internal experiment logs and W&B runs |
-| Documentation, model card, dataset notes, and public framework figure | `.pth` / `.pt` checkpoints |
+| Documentation, model card, dataset notes, and public README figures | `.pth` / `.pt` checkpoints |
 | Weight release instructions | `main.pdf` and private manuscript assets |
 
 ## Quick Start
@@ -192,7 +196,7 @@ SpaceSeg/
 |-- sam2/                          # SAM2 runtime with SpaceSeg decoder wiring
 |-- sam2_configs/                  # SAM2 model configs
 |-- checkpoints/download_ckpts.sh  # Official SAM2 checkpoint downloader
-|-- assets/                        # Public framework figure for the README
+|-- assets/                        # Public banner and framework figures for the README
 |-- examples/spacees_sample/       # Public 40-pair SpaceES sample subset
 |-- weights/README.md              # SpaceSeg weight release notes
 |-- DATASET.md                     # Dataset policy and format
@@ -216,31 +220,6 @@ Out/final_best_model_mIoU_8987_mAcc_9998.pth
 See `DATASET.md`, `MODEL_CARD.md`, and `weights/README.md` for the current
 release policy. Public sample data and released weights are provided for
 research and non-commercial use only.
-
-## AI Banner Prompt
-
-Use this prompt to generate an optional GitHub README banner. Save the result as
-`assets/spaceseg_banner.png` before adding it to the top of this page.
-
-```text
-Create a cinematic academic GitHub README banner for a research project named
-"SpaceSeg". Wide aspect ratio 3:1, 1920x640 or higher. The scene should show
-high-precision on-orbit multi-spacecraft perception in deep space: several
-realistic satellites and spacecraft captured by an orbital camera, with Earth
-limb, Moon/Mars tones, and a starfield in the background. Overlay subtle
-translucent segmentation masks, contour lines, prompt points, and neural
-network feature-map layers to suggest SAM2-based vision foundation model
-segmentation, MSHARD multi-scale refinement, connected-component target
-organization, and spatial domain adaptation.
-
-Style: polished scientific visualization, realistic spacecraft, clean aerospace
-engineering aesthetic, elegant dark space background with restrained cyan, blue,
-white, and amber accents. High contrast, sharp details, professional
-conference-paper project page look. Leave visual breathing room near the
-center/top for README text. No national flags, no weapons, no missiles, no
-humans, no cluttered HUD, no fake logos, no unreadable text. If text is
-included, only a crisp minimal "SpaceSeg" title; otherwise no text.
-```
 
 ## Citation
 
