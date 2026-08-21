@@ -4,7 +4,10 @@
 
 <p><strong>A High-Precision Intelligent Perception Segmentation Method for Multi-Spacecraft On-Orbit Targets</strong></p>
 
+<p><strong>Published in IEEE Transactions on Image Processing, 2026.</strong></p>
+
 <p>
+  <a href="https://doi.org/10.1109/TIP.2026.3714854"><img src="https://img.shields.io/badge/IEEE%20TIP-Published-00629B?style=for-the-badge" alt="Published in IEEE Transactions on Image Processing"></a>
   <a href="https://arxiv.org/abs/2503.11133"><img src="https://img.shields.io/badge/arXiv-2503.11133-b31b1b?style=for-the-badge" alt="arXiv:2503.11133"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green?style=for-the-badge" alt="License: Apache 2.0"></a>
   <a href="DATASET.md"><img src="https://img.shields.io/badge/Dataset-SpaceES%20Sample-blue?style=for-the-badge" alt="SpaceES sample dataset"></a>
@@ -227,15 +230,15 @@ research and non-commercial use only.
 ## Citation
 
 ```bibtex
-@misc{liu2025spaceseg,
-  title         = {SpaceSeg: A High-Precision Intelligent Perception Segmentation Method for Multi-Spacecraft On-Orbit Targets},
-  author        = {Hao Liu and Pengyu Guo and Siyuan Yang and Zeqing Jiang and Qinglei Hu and Dongyu Li},
-  year          = {2025},
-  eprint        = {2503.11133},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV},
-  doi           = {10.48550/arXiv.2503.11133},
-  url           = {https://arxiv.org/abs/2503.11133}
+@article{liu2026spaceseg,
+  author  = {Hao Liu and Pengyu Guo and Siyuan Yang and Zeqing Jiang and Qinglei Hu and Dongyu Li},
+  title   = {{SpaceSeg}: A High-Precision Intelligent Perception Segmentation Method for Multi-Spacecraft On-Orbit Targets},
+  journal = {IEEE Transactions on Image Processing},
+  volume  = {35},
+  pages   = {7986--7997},
+  year    = {2026},
+  doi     = {10.1109/TIP.2026.3714854},
+  url     = {https://doi.org/10.1109/TIP.2026.3714854}
 }
 ```
 
